@@ -34,19 +34,20 @@ try {
 
 - videoの用意 srcObjを取得
 ```js
-await navigator.mediaDevices
+const srcObj = await navigator.mediaDevices
     .getUserMedia({
       audio: true,
       video: true
     })
 ```
 
-- videoのsrcObjにセット
+- videoのsrcObjにセットして再生
 ```js
 const video = this.$refs.video
       video.muted = true
       video.srcObject = this.stream
       video.playsInline = true
+      await video.play()
 ```
 
 - matcherの作成
@@ -62,9 +63,17 @@ const video = this.$refs.video
 
 ```js
 {
-  faceapiReady: false,
-  videoReady: false
+  faceApi: {
+    preparing: boolean
+    error: boolean
+  }
+  video: {
+    videoPreparing: boolean
+    video: HTMLVideoElement
+  }
+  appReady: boolean
 }
 
+// INITAPP(VIDEO)@AppContainer
 ```
 

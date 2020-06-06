@@ -1,21 +1,11 @@
-import { combineReducers, createStore } from "redux";
-import { faceApiReducer, FaceApiStateType } from "../reducers/face-api";
-import { hogeReducer, HogeStateType } from "../reducers/hoge";
+import { createStore, applyMiddleware, compose } from "redux";
+import thunkMiddleware from "redux-thunk";
+import { rootReducer } from "../reducers";
 
-export type StateType = {
-  hoge: HogeStateType;
-  faceApi: FaceApiStateType;
-};
+const composeEnhancer =
+  (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const reducers = combineReducers<StateType>({
-  hoge: hogeReducer,
-  faceApi: faceApiReducer,
-});
-
-export const Store = createStore(reducers);
-
-/*
-const redicers = (state, action) => ({
-  hoge: hogeReducer(state.hoge, action)
-})
-*/
+export const Store = createStore(
+  rootReducer,
+  composeEnhancer(applyMiddleware(thunkMiddleware))
+);
