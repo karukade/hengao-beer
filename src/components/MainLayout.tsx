@@ -10,8 +10,7 @@ const Container = styled.div`
     grid-row: 1;
     grid-column: 2;
     display: flex;
-    padding-top: 50px;
-    padding-bottom: 50px;
+    align-items: center;
   }
   > .left {
     grid-row: 1;
@@ -24,37 +23,32 @@ const Container = styled.div`
 `;
 
 const VideoContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  width: 100%;
   position: relative;
+  width: 100%;
+  padding-top: 100%;
   overflow: hidden;
   border-radius: 20px;
   > video {
     position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    height: 100%;
-    z-index: 1;
+    top: 0;
+    width: 100%;
   }
-`;
-
-const VideoOverlay = styled.div`
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  top: 50%;
-  width: 100%;
-  transform: translateY(-50%);
-  z-index: 2;
-`;
-
-const Message = styled.div`
-  position: relative;
-  z-index: 2;
+  > .video-overlay {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    top: 50%;
+    width: 100%;
+    transform: translateY(-50%);
+    z-index: 2;
+  }
+  > .message {
+    position: absolute;
+    bottom: 0;
+    z-index: 2;
+  }
 `;
 
 type PropsType = {
@@ -76,8 +70,8 @@ const MainLayout: React.FC<PropsType> = ({
         {status}
         <VideoContainer>
           {video}
-          {videoOverLay && <VideoOverlay>{videoOverLay}</VideoOverlay>}
-          <Message>{message}</Message>
+          {videoOverLay && <div className="video-overlay">{videoOverLay}</div>}
+          <div className="message">{message}</div>
         </VideoContainer>
       </div>
       <div className="right"></div>

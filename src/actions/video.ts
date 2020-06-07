@@ -14,8 +14,10 @@ export const thunkPrepareVideo = (
   dispatch(prepareVideo.started());
   dispatch(setVideo(videoElm));
   const srcObj = await navigator.mediaDevices.getUserMedia({
-    audio: true,
-    video: true,
+    video: {
+      width: 720,
+      height: 720,
+    },
   });
   videoElm.srcObject = srcObj;
   videoElm.playsInline = true;
