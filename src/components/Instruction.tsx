@@ -3,11 +3,9 @@ import styled from "styled-components";
 
 const Div = styled.div`
   font-size: 26px;
-  flex-wrap: bold;
-  color: #333;
-  background-color: #fff;
+  font-weight: bold;
+  color: #fff;
   padding: 1em;
-  border-radius: 10px;
 `;
 
 const instructions = {

@@ -21,9 +21,12 @@ export const thunkPrepareFaceApi = (): AppThunk => async (dispatch) => {
   return loadWidgets().then(() => dispatch(prepareFaceApi.done({})));
 };
 
-export const thunkPrepareMatcher = (
-  video: HTMLVideoElement
-): AppThunk => async (dispatch) => {
+export const thunkPrepareMatcher = (): AppThunk => async (
+  dispatch,
+  getState
+) => {
+  const video = getState().video.element;
+  if (!video) return;
   dispatch(prepareMatcher.started());
   const matcher = await getMatcher(video);
   dispatch(prepareMatcher.done({ result: matcher }));

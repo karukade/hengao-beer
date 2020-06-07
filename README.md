@@ -77,3 +77,12 @@ const video = this.$refs.video
 // INITAPP(VIDEO)@AppContainer
 ```
 
+```js
+app: {
+  status: "WAIT_START"
+  video: {
+    element: HTMLVideoElement
+  }
+}
+```
+

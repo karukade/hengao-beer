@@ -1,29 +1,19 @@
 import { reducerWithInitialState } from "typescript-fsa-reducers";
-import { initApp } from "../actions/app";
+import { setAppState } from "../actions/app";
+import { APP_STATE_TYPE, appState } from "../actions/app";
 
 export type AppStateType = {
-  preparing: boolean;
-  ready: boolean;
+  appState: APP_STATE_TYPE;
 };
 
 const initialState: AppStateType = {
-  preparing: false,
-  ready: false,
+  appState: appState.WAIT_START,
 };
 
-export const appReducer = reducerWithInitialState(initialState)
-  .case(initApp.started, (state) => ({
+export const appReducer = reducerWithInitialState(initialState).case(
+  setAppState,
+  (state, appState) => ({
     ...state,
-    preparing: true,
-  }))
-  .case(initApp.done, (state) => ({
-    ...state,
-    preparing: false,
-    ready: true,
-  }))
-  .case(initApp.done, (state) => ({
-    ...state,
-    error: true,
-    preparing: false,
-    ready: true,
-  }));
+    appState,
+  })
+);

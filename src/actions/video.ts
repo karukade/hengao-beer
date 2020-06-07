@@ -5,7 +5,7 @@ const actionCreator = actionCreatorFactory();
 
 export const setVideo = actionCreator<HTMLVideoElement>("SET_VIDEO_DOM");
 export const prepareVideo = actionCreator.async<void, void, void>(
-  "SET_VIDEO_DOM"
+  "PREPARE_VIDEO"
 );
 
 export const thunkPrepareVideo = (
