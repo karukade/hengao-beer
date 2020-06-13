@@ -1,18 +1,16 @@
 import { reducerWithInitialState } from "typescript-fsa-reducers";
-import { prepareFaceApi, prepareMatcher } from "../actions/faceApi";
-import { LabeledFaceDescriptors } from "face-api.js";
+import { prepareFaceApi, setMatcher } from "../actions/faceApi";
+import { FaceMatcher } from "face-api.js";
 
 export type FaceApiStateType = {
   preparing: boolean;
   error: boolean;
-  matcherPreparing: boolean;
-  matcher: LabeledFaceDescriptors | null;
+  matcher: FaceMatcher | null;
 };
 
 const initialState: FaceApiStateType = {
   preparing: false,
   error: false,
-  matcherPreparing: false,
   matcher: null,
 };
 
@@ -30,11 +28,7 @@ export const faceApiReducer = reducerWithInitialState(initialState)
     error: true,
     preparing: false,
   }))
-  .case(prepareMatcher.started, (state) => ({
+  .case(setMatcher, (state, matcher) => ({
     ...state,
-    matcherPreparing: true,
-  }))
-  .case(prepareMatcher.done, (state, { result }) => ({
-    ...state,
-    matcher: result,
+    matcher,
   }));

@@ -26,9 +26,8 @@ const VideoContainer = styled.div`
   position: relative;
   width: 100%;
   padding-top: 100%;
-  overflow: hidden;
-  border-radius: 20px;
   > video {
+    border-radius: 20px;
     position: absolute;
     top: 0;
     width: 100%;
@@ -48,7 +47,21 @@ const VideoContainer = styled.div`
     position: absolute;
     bottom: 0;
     z-index: 2;
+    width: 100%;
   }
+  > .limit-timer {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+`;
+
+const StatusContainer = styled.div`
+  position: absolute;
+  left: 0;
+  top: 30px;
+  transform: translateX(-60%);
+  z-index: 3;
 `;
 
 type PropsType = {
@@ -56,6 +69,8 @@ type PropsType = {
   videoOverLay?: React.ReactNode;
   message?: React.ReactNode;
   status?: React.ReactNode;
+  limitTimer?: React.ReactNode;
+  aside?: React.ReactNode;
 };
 
 const MainLayout: React.FC<PropsType> = ({
@@ -63,18 +78,21 @@ const MainLayout: React.FC<PropsType> = ({
   videoOverLay,
   message,
   status,
+  limitTimer,
+  aside,
 }) => {
   return (
     <Container>
       <div className="main">
-        {status}
         <VideoContainer>
+          <StatusContainer>{status}</StatusContainer>
           {video}
           {videoOverLay && <div className="video-overlay">{videoOverLay}</div>}
           <div className="message">{message}</div>
+          <div className="limit-timer">{limitTimer}</div>
         </VideoContainer>
       </div>
-      <div className="right"></div>
+      <div className="right">{aside}</div>
     </Container>
   );
 };

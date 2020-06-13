@@ -1,37 +1,30 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
-import { thunkPrepareMatcher } from "../actions/faceApi";
+import { thunkGetMatcher, setAppState } from "../actions/app";
 import Btn from "../components/Btn";
-import { APP_STATE_TYPE, appState } from "../actions/app";
+import { appState } from "../actions/app";
 import { AppThunk } from "../reducers";
 import { Action } from "typescript-fsa";
 
+type ActionKeys = "TAKE_MAGAO" | "RESTART";
+
 type Actions = {
-  [K in APP_STATE_TYPE]?: () => AppThunk | Action<any>;
+  [K in ActionKeys]?: () => AppThunk | Action<any>;
 };
 
 const actions: Actions = {
-  [appState.WAIT_MAGAO]: thunkPrepareMatcher,
+  TAKE_MAGAO: thunkGetMatcher,
+  RESTART: () => setAppState(appState.READY_HENGAO),
 };
 
-const labels: {
-  [K in APP_STATE_TYPE]?: string;
-} = {
-  [appState.WAIT_MAGAO]: "通常の顔を撮影する",
-};
-
-const ActionBtn: React.FC<{ state: APP_STATE_TYPE }> = ({ state }) => {
+const ActionBtn: React.FC<{ action: ActionKeys }> = ({ children, action }) => {
   const dispatch = useDispatch();
-  if (!actions[state]) return null;
+  if (!actions[action]) return null;
   const clickHandler = () => {
-    dispatch(actions[state]?.());
+    dispatch(actions[action]?.());
   };
-  return (
-    <div>
-      <Btn onClick={clickHandler}>{labels?.[state]}</Btn>
-    </div>
-  );
+  return <Btn onClick={clickHandler}>{children}</Btn>;
 };
 
 export default ActionBtn;
