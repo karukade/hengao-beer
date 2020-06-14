@@ -52,7 +52,7 @@ const StartCounter: React.FC<Pick<CounterProps, "count">> = (props) => {
   const dispatch = useDispatch();
   const onDone = useCallback(() => {
     setIsDone(true);
-    // GO!になってから1秒後にゲームをスタートする
+    // GO!になって1秒後にゲームをスタートする
     setTimeout(() => dispatch(setAppState(appState.DETECTING_HENGAO)), 1000);
   }, [dispatch]);
   return (

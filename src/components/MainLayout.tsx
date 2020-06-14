@@ -1,25 +1,32 @@
 import React from "react";
 import styled from "styled-components";
 
+import BtnList from "../components/BtnList";
+
 const Container = styled.div`
   width: 100%;
   display: grid;
   grid-template-rows: 100vh;
   grid-template-columns: 1fr 52% 1fr;
-  > .main {
-    grid-row: 1;
-    grid-column: 2;
-    display: flex;
-    align-items: center;
-  }
-  > .left {
-    grid-row: 1;
-    grid-column: 1;
-  }
-  > .right {
-    grid-row: 1;
-    grid-column: 3;
-  }
+`;
+
+const Main = styled.div`
+  grid-row: 1;
+  grid-column: 2;
+  display: flex;
+  align-items: center;
+`;
+
+const Sides = styled.div`
+  grid-row: 1;
+`;
+
+const Left = styled(Sides)`
+  grid-column: 1;
+`;
+
+const Right = styled(Sides)`
+  grid-column: 3;
 `;
 
 const VideoContainer = styled.div`
@@ -32,31 +39,36 @@ const VideoContainer = styled.div`
     top: 0;
     width: 100%;
   }
-  > .video-overlay {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    top: 50%;
-    width: 100%;
-    transform: translateY(-50%);
-    z-index: 2;
-  }
-  > .message {
-    position: absolute;
-    bottom: 0;
-    z-index: 2;
-    width: 100%;
-  }
-  > .limit-timer {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-  }
 `;
 
-const StatusContainer = styled.div`
+const VideoOverLay = styled.div`
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  top: 50%;
+  width: 100%;
+  transform: translateY(-50%);
+  z-index: 2;
+`;
+
+const Message = styled.div`
+  position: absolute;
+  bottom: 0;
+  z-index: 2;
+  width: 100%;
+  border-radius: 20px;
+  overflow: hidden;
+`;
+
+const LimitTimer = styled.div`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+`;
+
+const Status = styled.div`
   position: absolute;
   left: 0;
   top: 30px;
@@ -66,7 +78,8 @@ const StatusContainer = styled.div`
 
 type PropsType = {
   video?: React.ReactNode;
-  videoOverLay?: React.ReactNode;
+  videoOverlay?: React.ReactNode;
+  actionBtn?: React.ReactNode;
   message?: React.ReactNode;
   status?: React.ReactNode;
   limitTimer?: React.ReactNode;
@@ -75,7 +88,8 @@ type PropsType = {
 
 const MainLayout: React.FC<PropsType> = ({
   video,
-  videoOverLay,
+  videoOverlay,
+  actionBtn,
   message,
   status,
   limitTimer,
@@ -83,16 +97,19 @@ const MainLayout: React.FC<PropsType> = ({
 }) => {
   return (
     <Container>
-      <div className="main">
+      <Main>
         <VideoContainer>
-          <StatusContainer>{status}</StatusContainer>
           {video}
-          {videoOverLay && <div className="video-overlay">{videoOverLay}</div>}
-          <div className="message">{message}</div>
-          <div className="limit-timer">{limitTimer}</div>
+          <Status>{status}</Status>
+          <VideoOverLay>
+            {videoOverlay}
+            <BtnList>{actionBtn}</BtnList>
+          </VideoOverLay>
+          <Message>{message}</Message>
+          <LimitTimer>{limitTimer}</LimitTimer>
         </VideoContainer>
-      </div>
-      <div className="right">{aside}</div>
+      </Main>
+      <Right>{aside}</Right>
     </Container>
   );
 };
