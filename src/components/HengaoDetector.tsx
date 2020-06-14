@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import styled, { keyframes } from "styled-components";
 
 //components
-import Counter from "../components/_Counter";
+import Counter from "./Counter";
 import HengaoDetectorImg from "../components/HengaoDetectorImg";
 import BeerImg from "../assets/img/img-beer.png";
 import HengaoImg from "../assets/img/hengao.png";

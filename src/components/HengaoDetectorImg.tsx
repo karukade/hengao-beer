@@ -8,6 +8,6 @@ const Img = styled.img`
 `;
 
 const HengaoDetectorImg: React.FC<{ src?: string }> = ({ src }) =>
-  src ? <Img src={src} /> : null;
+  src ? <Img src={src} alt="" /> : null;
 
 export default React.memo(HengaoDetectorImg);

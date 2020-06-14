@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import styled, { keyframes } from "styled-components";
 
 import { setAppState, appState } from "../actions/app";
-import Counter, { CounterProps } from "../components/_Counter";
+import Counter, { CounterProps } from "./Counter";
 
 const fillCircle = keyframes`
   from {

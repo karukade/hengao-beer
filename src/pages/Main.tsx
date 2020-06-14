@@ -14,7 +14,7 @@ import HengaoList from "../components/HengaoList";
 import { APP_STATE_TYPE, appState } from "../actions/app";
 import { StateType } from "../reducers/";
 
-const startHengao = (state: APP_STATE_TYPE) =>
+const condHengaoDitector = (state: APP_STATE_TYPE) =>
   state === appState.DETECTING_HENGAO ||
   state === appState.DETECTING_HENGAO_FILL ||
   state === appState.SUCCESS_HENGAO ||
@@ -30,6 +30,10 @@ const condVideoOverlay = (state: APP_STATE_TYPE) =>
 
 const condHengaoList = (hengao: StateType["app"]["hengao"]) =>
   hengao.length > 0;
+
+const condLimitTimer = (state: APP_STATE_TYPE) =>
+  state === appState.DETECTING_HENGAO_FILL ||
+  state === appState.DETECTING_HENGAO;
 
 const Main: React.FC<{ state: APP_STATE_TYPE }> = ({ state }) => {
   const videoRef = useRef<null | HTMLVideoElement>(null);
@@ -47,10 +51,10 @@ const Main: React.FC<{ state: APP_STATE_TYPE }> = ({ state }) => {
       {state}
       <SnapCanvas ref={canvasRef} />
       <MainLayout
-        status={startHengao(state) && <HengaoDetector state={state} />}
         video={<Video ref={videoRef} />}
         message={<Message state={state} />}
-        limitTimer={<LimitTimer state={state} />}
+        status={condHengaoDitector(state) && <HengaoDetector state={state} />}
+        limitTimer={condLimitTimer(state) && <LimitTimer state={state} />}
         videoOverLay={condVideoOverlay(state) && <VideoOverLay state={state} />}
         aside={condHengaoList(hengao) && <HengaoList items={hengao} />}
       />
