@@ -7,9 +7,9 @@ const magaoTimeOut = 10000;
 export const loadWidgets = () => {
   return Promise.all([
     faceApi.nets.tinyFaceDetector.loadFromUri(widgetsDir),
-    faceApi.nets.faceLandmark68Net.loadFromUri(widgetsDir),
+    faceApi.nets.faceLandmark68TinyNet.loadFromUri(widgetsDir),
     faceApi.nets.faceRecognitionNet.loadFromUri(widgetsDir),
-    faceApi.nets.ssdMobilenetv1.loadFromUri(widgetsDir),
+    // faceApi.nets.ssdMobilenetv1.loadFromUri(widgetsDir),
   ]);
 };
 
