@@ -7,10 +7,13 @@ const Wrapper = styled.ul`
   max-height: 100vh;
   overflow-y: auto;
   text-align: center;
-  border-radius: 10px;
   overflow: auto;
+  > li {
+    padding: 20px;
+  }
   img {
     margin: auto;
+    border-radius: 10px;
   }
   > * + * {
     margin-top: 18px;

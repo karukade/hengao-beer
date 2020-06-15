@@ -22,6 +22,7 @@ const Sides = styled.div`
 `;
 
 const Left = styled(Sides)`
+  position: relative;
   grid-column: 1;
 `;
 
@@ -76,7 +77,14 @@ const Status = styled.div`
   z-index: 3;
 `;
 
-type PropsType = {
+const BeerGif = styled.div`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 4.5vmax;
+`;
+
+export type MainLayoutProps = {
   video?: React.ReactNode;
   videoOverlay?: React.ReactNode;
   actionBtn?: React.ReactNode;
@@ -84,9 +92,10 @@ type PropsType = {
   status?: React.ReactNode;
   limitTimer?: React.ReactNode;
   aside?: React.ReactNode;
+  beerGif?: React.ReactNode;
 };
 
-const MainLayout: React.FC<PropsType> = ({
+const MainLayout: React.FC<MainLayoutProps> = ({
   video,
   videoOverlay,
   actionBtn,
@@ -94,9 +103,13 @@ const MainLayout: React.FC<PropsType> = ({
   status,
   limitTimer,
   aside,
+  beerGif,
 }) => {
   return (
     <Container>
+      <Left>
+        <BeerGif>{beerGif}</BeerGif>
+      </Left>
       <Main>
         <VideoContainer>
           {video}

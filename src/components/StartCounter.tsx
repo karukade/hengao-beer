@@ -2,7 +2,7 @@ import React, { useState, useCallback } from "react";
 import { useDispatch } from "react-redux";
 import styled, { keyframes } from "styled-components";
 
-import { setAppState, appState } from "../actions/app";
+import { thunkStartDetectHengao, appState } from "../actions/app";
 import Counter, { CounterProps } from "./Counter";
 
 const fillCircle = keyframes`
@@ -53,7 +53,7 @@ const StartCounter: React.FC<Pick<CounterProps, "count">> = (props) => {
   const onDone = useCallback(() => {
     setIsDone(true);
     // GO!になって1秒後にゲームをスタートする
-    setTimeout(() => dispatch(setAppState(appState.DETECTING_HENGAO)), 1000);
+    setTimeout(() => dispatch(thunkStartDetectHengao()), 1000);
   }, [dispatch]);
   return (
     <Wrapper count={props.count}>

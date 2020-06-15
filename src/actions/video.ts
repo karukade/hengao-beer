@@ -4,14 +4,15 @@ import { AppThunk } from "../reducers";
 const actionCreator = actionCreatorFactory();
 
 export const setVideo = actionCreator<HTMLVideoElement>("SET_VIDEO_DOM");
-export const prepareVideo = actionCreator.async<void, void, void>(
-  "PREPARE_VIDEO"
-);
 
 export const thunkPrepareVideo = (
   videoElm: HTMLVideoElement
 ): AppThunk => async (dispatch) => {
-  dispatch(prepareVideo.started());
+  if (navigator.mediaDevices === undefined) {
+    const err = new Error("");
+    err.name = "MediaDeviceNotSupport";
+    throw err;
+  }
   dispatch(setVideo(videoElm));
   const srcObj = await navigator.mediaDevices.getUserMedia({
     video: {
@@ -22,7 +23,5 @@ export const thunkPrepareVideo = (
   videoElm.srcObject = srcObj;
   videoElm.playsInline = true;
   videoElm.muted = true;
-  await videoElm.play().then(() => {
-    dispatch(prepareVideo.done({}));
-  });
+  return videoElm.play();
 };

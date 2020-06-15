@@ -3,20 +3,35 @@ import {
   setAppState,
   setCanvas,
   setHengao,
+  setAppError,
+  setDeviceConnected,
+  setDeviceInfo,
   appState,
   APP_STATE_TYPE,
 } from "../actions/app";
+
+export type DeviceInfo = null | {
+  serviceUUID: string;
+  characteristicUUID: string;
+  name: string;
+};
 
 export type AppStateType = {
   appState: APP_STATE_TYPE;
   canvas: HTMLCanvasElement | null;
   hengao: string[];
+  deviceConnected: boolean;
+  deviceInfo: DeviceInfo;
+  appError: string | null;
 };
 
 const initialState: AppStateType = {
   appState: appState.WAIT_START,
   canvas: null,
   hengao: [],
+  deviceConnected: false,
+  deviceInfo: null,
+  appError: null,
 };
 
 export const appReducer = reducerWithInitialState(initialState)
@@ -31,4 +46,16 @@ export const appReducer = reducerWithInitialState(initialState)
   .case(setCanvas, (state, canvas) => ({
     ...state,
     canvas,
+  }))
+  .case(setDeviceConnected, (state, deviceConnected) => ({
+    ...state,
+    deviceConnected,
+  }))
+  .case(setDeviceInfo, (state, deviceInfo) => ({
+    ...state,
+    deviceInfo,
+  }))
+  .case(setAppError, (state, appError) => ({
+    ...state,
+    appError,
   }));

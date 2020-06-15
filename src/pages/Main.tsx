@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { thunkInitApp } from "../actions/app";
 
-import MainLayout from "../components/MainLayout";
+import MainLayout, { MainLayoutProps } from "../components/MainLayout";
 import Message from "../components/Message";
 import Video from "../components/Video";
 import HengaoDetector from "../components/HengaoDetector";
@@ -12,17 +12,16 @@ import SnapCanvas from "../components/SnapCanvas";
 import HengaoList from "../components/HengaoList";
 import ActionBtn from "../components/ActionBtn";
 import MagaoLoader from "../components/MagaoLoader";
+import BeerMachineImg from "../components/BeerMachineImg";
 
 import { APP_STATE_TYPE, appState, setAppState } from "../actions/app";
 import { StateType } from "../reducers/";
 
-const components = (state: APP_STATE_TYPE) => {
+const components = (state: APP_STATE_TYPE): MainLayoutProps => {
   switch (state) {
     case appState.WAIT_MAGAO:
       return {
-        actionBtn: (
-          <ActionBtn action="TAKE_MAGAO">通常の顔を撮影する</ActionBtn>
-        ),
+        actionBtn: <ActionBtn action="TAKE_MAGAO">真顔を撮影する</ActionBtn>,
       };
 
     case appState.TAKING_MAGAO:
@@ -47,12 +46,11 @@ const components = (state: APP_STATE_TYPE) => {
     case appState.FAIL_HENGAO:
       return {
         status: <HengaoDetector state={state} />,
+        beerGif: state === appState.SUCCESS_HENGAO ? <BeerMachineImg /> : null,
         actionBtn: (
           <>
             <ActionBtn action="RESTART">リトライ変顔</ActionBtn>
-            <ActionBtn action="TAKE_MAGAO">
-              もう一度通常の顔を撮影する
-            </ActionBtn>
+            <ActionBtn action="TAKE_MAGAO">もう一度真顔を撮影する</ActionBtn>
           </>
         ),
       };
