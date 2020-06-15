@@ -9,7 +9,6 @@ export const loadWidgets = () => {
     faceApi.nets.tinyFaceDetector.loadFromUri(widgetsDir),
     faceApi.nets.faceLandmark68TinyNet.loadFromUri(widgetsDir),
     faceApi.nets.faceRecognitionNet.loadFromUri(widgetsDir),
-    // faceApi.nets.ssdMobilenetv1.loadFromUri(widgetsDir),
   ]);
 };
 
