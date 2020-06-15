@@ -45,7 +45,7 @@ export const getMatcher = async (video: HTMLVideoElement) => {
 export const getFaceDescriptor = async (video: HTMLVideoElement) => {
   const detection = await faceApi
     .detectSingleFace(video, new faceApi.TinyFaceDetectorOptions())
-    .withFaceLandmarks()
+    .withFaceLandmarks(true)
     .withFaceDescriptor();
   return detection?.descriptor;
 };
