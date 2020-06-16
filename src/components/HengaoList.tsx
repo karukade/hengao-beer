@@ -15,9 +15,6 @@ const Wrapper = styled.ul`
     margin: auto;
     border-radius: 10px;
   }
-  > * + * {
-    margin-top: 18px;
-  }
 `;
 
 const HengaoList: React.FC<{ items: AppStateType["hengao"] }> = ({ items }) => {

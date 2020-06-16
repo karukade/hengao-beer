@@ -1,12 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
+
+import { preLoadImages } from "../components/utils";
 
 import { setAppState, appState } from "../actions/app";
 import BtnList from "../components/BtnList";
 import Btn from "../components/Btn";
 import Dialog from "../components/Dialog";
 import DeviceSettingModal from "../components/DeviceSettingModal";
+import ImgHengao from "../assets/img/hengao.png";
+import ImgBeer from "../assets/img/img-beer.png";
+import BeerGif from "../assets/img/beer.gif";
 
 const Instructions = styled.div`
   display: flex;
@@ -45,9 +50,15 @@ const Instruction = styled.dl`
 const Start: React.FC = () => {
   const [dialogShow, setDialogShow] = useState(false);
   const dispatch = useDispatch();
-  const onClick = () => dispatch(setAppState(appState.START_APP));
-  const showDialog = () => setDialogShow(true);
-  const closeDialog = () => setDialogShow(false);
+  const onClick = useCallback(() => dispatch(setAppState(appState.START_APP)), [
+    dispatch,
+  ]);
+  const showDialog = useCallback(() => setDialogShow(true), []);
+  const closeDialog = useCallback(() => setDialogShow(false), []);
+
+  useEffect(() => {
+    preLoadImages([ImgHengao, ImgBeer, BeerGif]);
+  }, []);
   return (
     <>
       <Instructions>

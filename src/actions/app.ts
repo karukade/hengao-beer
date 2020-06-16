@@ -26,7 +26,7 @@ export const appState = {
   SUCCESS_HENGAO: "SUCCESS_HENGAO",
   FAIL_HENGAO: "FAIL_HENGAO",
 } as const;
-export type APP_STATE_TYPE = keyof typeof appState;
+export type APP_STATE_TYPE = typeof appState[keyof typeof appState];
 const actionCreator = actionCreatorFactory();
 
 export const setAppState = actionCreator<APP_STATE_TYPE>("SET_APP_STATUS");
