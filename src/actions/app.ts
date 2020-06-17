@@ -1,8 +1,7 @@
 import actionCreatorFactory from "typescript-fsa";
-import { thunkPrepareFaceApi, setMatcher } from "./faceApi";
+import { thunkPrepareFaceApi, thunkSetMatcher } from "./faceApi";
 import { thunkPrepareVideo } from "./video";
 
-import { getMatcher } from "../plugins/faceApi";
 import {
   initBLEDevice,
   toggleDeviceState,
@@ -74,12 +73,11 @@ export const thunkGetMatcher = (): AppThunk => async (dispatch, getState) => {
   const video = getState().video.element;
   if (!video) return;
   dispatch(setAppState(appState.TAKING_MAGAO));
-  const matcher = await getMatcher(video);
+  const matcher = await dispatch(thunkSetMatcher(video));
   if (!matcher) {
     dispatch(setAppState(appState.FAIL_MAGAO_TAKE));
     return;
   }
-  dispatch(setMatcher(matcher));
   dispatch(setAppState(appState.WAIT_HENGAO));
 };
 

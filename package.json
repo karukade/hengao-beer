@@ -28,7 +28,9 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "firebase:deploy": "firebase deploy",
-    "deploy": "run-s build firebase:deploy"
+    "deploy": "run-s build firebase:deploy",
+    "source-map-analyze": "source-map-explorer 'build/static/js/*.js'",
+    "analyze": "run-s build source-map-analyze"
   },
   "eslintConfig": {
     "extends": [

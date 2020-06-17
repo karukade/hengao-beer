@@ -1,17 +1,12 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
-
-import { preLoadImages } from "../components/utils";
 
 import { setAppState, appState } from "../actions/app";
 import BtnList from "../components/BtnList";
 import Btn from "../components/Btn";
 import Dialog from "../components/Dialog";
 import DeviceSettingModal from "../components/DeviceSettingModal";
-import ImgHengao from "../assets/img/hengao.png";
-import ImgBeer from "../assets/img/img-beer.png";
-import BeerGif from "../assets/img/beer.gif";
 
 const Instructions = styled.div`
   display: flex;
@@ -57,8 +52,19 @@ const Start: React.FC = () => {
   const closeDialog = useCallback(() => setDialogShow(false), []);
 
   useEffect(() => {
-    preLoadImages([ImgHengao, ImgBeer, BeerGif]);
+    const fragment = document.createDocumentFragment();
+    ["face_recognition_model-shard1", "face_recognition_model-shard2"].forEach(
+      (model) => {
+        const link = document.createElement("link");
+        link.rel = "preload";
+        link.href = `${process.env.PUBLIC_URL}/widgets/${model}`;
+        link.as = "fetch";
+        fragment.appendChild(link);
+      }
+    );
+    document.head.appendChild(fragment);
   }, []);
+
   return (
     <>
       <Instructions>
