@@ -13,8 +13,8 @@ export type StateType = {
   app: AppStateType;
 };
 
-export type AppThunk = ThunkAction<
-  void, // return
+export type AppThunk<T = void> = ThunkAction<
+  T, // return
   StateType, // rootState
   unknown, // extraArgument
   Action<any> // action

@@ -1,21 +1,26 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, lazy } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { thunkInitApp } from "../actions/app";
+import { preLoadImages } from "../components/utils";
 
 import MainLayout, { MainLayoutProps } from "../components/MainLayout";
 import Message from "../components/Message";
 import Video from "../components/Video";
-import HengaoDetector from "../components/HengaoDetector";
 import LimitTimer from "../components/LimitTimer";
 import StartCounter from "../components/StartCounter";
 import SnapCanvas from "../components/SnapCanvas";
-import HengaoList from "../components/HengaoList";
 import ActionBtn from "../components/ActionBtn";
 import MagaoLoader from "../components/MagaoLoader";
-import BeerMachineImg from "../components/BeerMachineImg";
+import HengaoDetector from "../components/HengaoDetector";
+import ImgHengao from "../assets/img/hengao.png";
+import ImgBeer from "../assets/img/img-beer.png";
+import BeerGif from "../assets/img/beer.gif";
 
 import { APP_STATE_TYPE, appState, setAppState } from "../actions/app";
 import { StateType } from "../reducers/";
+
+const BeerMachineImg = lazy(() => import("../components/BeerMachineImg"));
+const HengaoList = lazy(() => import("../components/HengaoList"));
 
 const components = (state: APP_STATE_TYPE): MainLayoutProps => {
   switch (state) {
@@ -82,6 +87,7 @@ const Main: React.FC<{ state: APP_STATE_TYPE }> = ({ state }) => {
   useEffect(() => {
     let timer!: number;
     if (waitHengao) {
+      preLoadImages([ImgHengao, ImgBeer, BeerGif]);
       timer = setTimeout(
         () => dispatch(setAppState(appState.READY_HENGAO)),
         1500

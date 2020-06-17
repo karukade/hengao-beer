@@ -2,8 +2,6 @@ import React from "react";
 import { Transition } from "react-transition-group";
 import styled from "styled-components";
 
-type TransitionState = "entering" | "entered" | "exiting" | "exited";
-
 const duration = 150;
 
 const BackDrop = styled.div<{ state: TransitionState }>`

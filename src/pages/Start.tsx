@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 
@@ -45,9 +45,26 @@ const Instruction = styled.dl`
 const Start: React.FC = () => {
   const [dialogShow, setDialogShow] = useState(false);
   const dispatch = useDispatch();
-  const onClick = () => dispatch(setAppState(appState.START_APP));
-  const showDialog = () => setDialogShow(true);
-  const closeDialog = () => setDialogShow(false);
+  const onClick = useCallback(() => dispatch(setAppState(appState.START_APP)), [
+    dispatch,
+  ]);
+  const showDialog = useCallback(() => setDialogShow(true), []);
+  const closeDialog = useCallback(() => setDialogShow(false), []);
+
+  useEffect(() => {
+    const fragment = document.createDocumentFragment();
+    ["face_recognition_model-shard1", "face_recognition_model-shard2"].forEach(
+      (model) => {
+        const link = document.createElement("link");
+        link.rel = "preload";
+        link.href = `${process.env.PUBLIC_URL}/widgets/${model}`;
+        link.as = "fetch";
+        fragment.appendChild(link);
+      }
+    );
+    document.head.appendChild(fragment);
+  }, []);
+
   return (
     <>
       <Instructions>
