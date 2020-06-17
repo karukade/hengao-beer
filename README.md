@@ -1,88 +1,30 @@
-# 変顔Beer
+# 変顔ビールお酌マシーン
 
-## ながれ
- - widgetsのロード
- ```js
- return Promise.all([
-        faceapi.nets.tinyFaceDetector.loadFromUri(this.MODEL_URI),
-        faceapi.nets.faceLandmark68Net.loadFromUri(this.MODEL_URI),
-        faceapi.nets.faceRecognitionNet.loadFromUri(this.MODEL_URI),
-        faceapi.nets.ssdMobilenetv1.loadFromUri(this.MODEL_URI)
-      ]);
- ```
+顔認識を利用して変顔を判定。制限時間内に5秒間変顔を維持するとビールをそそいでくれるwebアプリ。
+2019年の養老乃瀧ハッカソンで作成したものを学習目的でtypescript+Reactで実装しなおした。<br>
 
-- デバイスにBLE接続
-```js
-try {
-        const device = await navigator.bluetooth.requestDevice({
-          acceptAllDevices: false,
-          filters: [{ namePrefix: 'LINE Things Trial M5Stack' }],
-          optionalServices: [this.SERVICE_UUID]
-        });
-        const server = await device.gatt.connect();
-        const service = await server.getPrimaryService(this.SERVICE_UUID); //サービスに接続
-        this.characteristic = await service.getCharacteristic(
-          this.CHARACTERISTIC_UUID
-        );
-        this.deviceConnected = true;
-        this.toggleDeviceState(false);
-      } catch (error) {
-        this.deviceConnected = false;
-        console.log('エラー', error);
-      }
-```
+[デモサイト](http://hengao-beer.web.app/)<br>
+(PCのChromeのみ対応。顔認識をブラウザ上で行っているのでスマホだとおそらく処理能力の問題でうまくうごきませんでした。。)<br>
+ビールお酌なし(デバイスなし)で変顔判定のみ試すことができます。<br>
+もし[beer.ino](https://github.com/karukade/hengao-beer/blob/dev/beer.ino)のようなかたちで実装したデバイスがあれば、サイトでService UUID、Characteristic UUID、デバイスの表示名を入力できるようにしているのでデバイスの動作こみで試すこともできます。<br>
+たまに、デバイス使用時にchromeでpermission deniedというエラーがでますが、何度か試すと動くようになります。。こちらは解消できてません。。
 
-- videoの用意 srcObjを取得
-```js
-const srcObj = await navigator.mediaDevices
-    .getUserMedia({
-      audio: true,
-      video: true
-    })
-```
+## デモ
 
-- videoのsrcObjにセットして再生
-```js
-const video = this.$refs.video
-      video.muted = true
-      video.srcObject = this.stream
-      video.playsInline = true
-      await video.play()
-```
+[デモサイト](http://hengao-beer.web.app/)<br>
+(Chromeのみ対応。かつPC推奨。顔認識をブラウザ上で行っているのでスマホだと処理能力の問題でうまくうごきません。。)
 
-- matcherの作成
+## 機能
+1. 変顔判定<br>
+[face-api.js](https://github.com/justadudewhohacks/face-api.js/)の顔認識を利用。<br>基準となる通常の顔を登録してMatcherを作成。そのMatcherに変顔をなげたときにかえってくる類似度が低いほど変顔と判定。
 
-## 変顔判定スタート
-- 制限時間カウンタースタート
-- hengaoのfacedescriptorを生成
-- matcherに渡してdistanceをとる
+2. ビールお酌マシーン<br>
+M5Stackとサーボモーターを利用。<br>
+ブラウザとBLEで連携。ブラウザ上で変顔と判定されると缶ビールをセットしたサーボを傾けてビールをそそぐ。
 
-- distanceが閾値以上であればカウントスタート
-
-- distance閾値以上であればカウントダウンを継続、閾値以下はカウントダウンを止める
-
-```js
-{
-  faceApi: {
-    preparing: boolean
-    error: boolean
-  }
-  video: {
-    videoPreparing: boolean
-    video: HTMLVideoElement
-  }
-  appReady: boolean
-}
-
-// INITAPP(VIDEO)@AppContainer
-```
-
-```js
-app: {
-  status: "WAIT_START"
-  video: {
-    element: HTMLVideoElement
-  }
-}
-```
+## 使用技術
+- react
+- face-api.js
+- web bluetooth api
+- M5stack
 
